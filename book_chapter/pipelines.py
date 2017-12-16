@@ -20,7 +20,9 @@ class BookChapterPipeline(object):
         self.bucket = oss2.Bucket(oss2.Auth(self.access_key_id, self.access_key_secret), self.endpoint, self.bucket_name)
     def process_item(self, item, spider):
 
-        db = pymysql.connect("106.14.168.122", "bingren11111", "li5266790", "biquge_book", use_unicode=True,
+        # db = pymysql.connect("106.14.168.122", "bingren11111", "li5266790", "biquge_book", use_unicode=True,
+        #                      charset="utf8")
+        db = pymysql.connect("localhost", "bingren11111", "li5266790", "biquge_book", use_unicode=True,
                              charset="utf8")
         cursor = db.cursor()
 
