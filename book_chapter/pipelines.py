@@ -11,7 +11,7 @@ class BookChapterPipeline(object):
     access_key_id = os.getenv('OSS_TEST_ACCESS_KEY_ID', 'LTAIolNYPMt1wbBA')
     access_key_secret = os.getenv('OSS_TEST_ACCESS_KEY_SECRET', '5PvJ6bvVMbZOPLMD2fDlao9fLYGRL9')
     bucket_name = os.getenv('OSS_TEST_BUCKET', 'biquge-test')
-    endpoint = os.getenv('OSS_TEST_ENDPOINT', 'https://oss-cn-hangzhou-internal.aliyuncs.com')
+    endpoint = os.getenv('OSS_TEST_ENDPOINT', 'https://oss-cn-shanghai-internal.aliyuncs.com')
 
     # 确认上面的参数都填写正确了
     def __init__(self):
