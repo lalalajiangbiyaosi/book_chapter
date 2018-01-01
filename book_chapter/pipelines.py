@@ -31,7 +31,7 @@ class BookChapterPipeline(object):
         print('-----------------------------------------------------------------------')
         print(item['chapter_id'], book_id, item['chapter_name'])
         print(type(item['chapter_id']),type(book_id),type(item['chapter_name']))
-        sqlLine = 'INSERT into amazing_life_chapter(chapter_name,chapter_id,book_id) values(\'%s\', %s, %s)' % (item['chapter_name'],item['chapter_id'], book_id, )
+        sqlLine = 'INSERT into amazing_life_chapter(chapter_name,chapter_id,book_id) values(\'%s\', %s, %s, )' % (item['chapter_name'],item['chapter_id'], book_id,)
 
         if cursor.execute(sqlLine):
             print('----------输出数据库成功----------，')

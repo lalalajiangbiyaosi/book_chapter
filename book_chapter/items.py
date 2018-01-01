@@ -10,7 +10,7 @@ import scrapy
 
 class BookChapterItem(scrapy.Item):
     # define the fields for your item here like:
-    name = scrapy.Field()
+    content = scrapy.Field()
     pass
 class Book_content_Item(scrapy.Item):
     chapter_id = scrapy.Field()
