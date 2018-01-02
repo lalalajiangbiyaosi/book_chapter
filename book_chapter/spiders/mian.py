@@ -28,20 +28,21 @@ class chapter_crawler(scrapy.Spider):
         sql_record_num = int(result/1000)
         cursor.execute('select book_id,chapter_name from amazing_life_chapter where download_status =0;')
         result_ = cursor.fetchall()
-        print(result_)
+        # print(result_)
         baseUrl = 'http://www.baidu.com/s?wd={}'
 
         for record in result_:
-            print(record)
+            # print(record)
             sql_com_line = 'select name from amazing_life_book where id = {}'.format(record[0])
-            print(sql_com_line)
+            # print(sql_com_line)
             cursor.execute(sql_com_line)
             book_name = cursor.fetchall()[0][0]
-            print(book_name)
+            # print(book_name)
             baidu_line = '{} {}'.format(book_name,record[1])
+            print(baidu_line)
             yield scrapy.http.Request(url=baseUrl.format(baidu_line), callback=self.parse_page_index)
-    def parse_page_index(self,response):
-        pass
+    # def parse_page_index(self,response):
+    #     pass
         # for i in range(1,sql_record_num):
         #     sql = self.sql_record_fetch(i,sql_record_num)
         #     print(sql)
@@ -57,15 +58,15 @@ class chapter_crawler(scrapy.Spider):
                 # yield scrapy.FormRequest(url=self.baseUrl,headers=self.headers,formdata=payload,callback=self.parse_page_index)
 
 
-    # def parse_page_index(self,response):
-    #     print(response.status)
-    #     for i in range(1,10):
-    #         cssCom = 'div#{} h3.t a::attr(href)'.format(i)
-    #         _url = response.css(cssCom).extract_first()
-    #         if ('起点' not in response.css('div#{} h3 a::text'.format(i)).extract_first()):
-    #             yield scrapy.Request(url=_url,callback=self.parse_content)
-    #             break
-    #             print(_url)
+    def parse_page_index(self,response):
+        print(response.status)
+        for i in range(1,10):
+            cssCom = 'div#{} h3.t a::attr(href)'.format(i)
+            _url = response.css(cssCom).extract_first()
+            if ('起点' not in ''.join(response.css('div#{} h3 a::text'.format(i)).extract())):
+                yield scrapy.Request(url=_url,callback=self.parse_content)
+                # print(_url)
+                break
     #     for index,chapter_content in enumerate(response.css('div.ml_list li a::text').extract()):
     #         item = Book_content_Item()
     #         item['chapter_id'] = str(index + 1)
@@ -78,15 +79,18 @@ class chapter_crawler(scrapy.Spider):
     #     item['content'] = ''.join(response.css('div.novelcontent p::text')[3:-2].extract())
     #     yield item
 
-    # def parse_content(self,response):
-    #     soup = BeautifulSoup(response.body,'lxml')
-    #     br = soup.find('br')
-    #     content = br.parent.get_text()
-    #     if len(content) > 500:
-    #         item = BookChapterItem()
-    #
-    #         item['content'] = content
+    def parse_content(self,response):
+        soup = BeautifulSoup(response.body,'lxml')
+        br = soup.find('br')
+        if hasattr(br,'parent'):
+            content = br.parent.get_text()
+            if len(content) > 500:
+                item = BookChapterItem()
 
+                item['content'] = content
+                yield item
+        else:
+            pass
 
 
 
